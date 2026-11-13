@@ -1,91 +1,25 @@
 [
  {
-  "id": "20-years-of-european-journalism",
-  "title": "20 Years of European Journalism",
-  "pages": 44,
-  "aspect": 0.7071
- },
- {
   "id": "alt-protein-eating-climate-change",
   "title": "Alt Protein Eating Climate Change",
-  "pages": 25,
+  "pages": 48,
   "aspect": 0.7214
- },
- {
-  "id": "business-in-europe",
-  "title": "Business in Europe",
-  "pages": 36,
-  "aspect": 0.7069
- },
- {
-  "id": "climate-change-regions",
-  "title": "Climate Change Regions",
-  "pages": 36,
-  "aspect": 0.7071
- },
- {
-  "id": "cohesion-policy-and-regional-aid-2013",
-  "title": "Cohesion Policy and Regional Aid 2013",
-  "pages": 20,
-  "aspect": 0.7071
  },
  {
   "id": "digital-eu-good-bad-ugly",
   "title": "Digital EU Good Bad Ugly",
-  "pages": 27,
+  "pages": 52,
   "aspect": 0.7214
- },
- {
-  "id": "eu-elections-document",
-  "title": "EU Elections Document",
-  "pages": 60,
-  "aspect": 0.7214
- },
- {
-  "id": "eu-regional-funds-2018",
-  "title": "EU Regional Funds 2018",
-  "pages": 32,
-  "aspect": 0.7071
  },
  {
   "id": "eu-unsung-heroes",
   "title": "EU Unsung Heroes",
-  "pages": 33,
+  "pages": 64,
   "aspect": 0.7214
- },
- {
-  "id": "europe-bioeconomy-business-of-nature",
-  "title": "Europe Bioeconomy Business of Nature",
-  "pages": 32,
-  "aspect": 0.7069
- },
- {
-  "id": "europe-in-review-2013",
-  "title": "Europe in Review 2013",
-  "pages": 20,
-  "aspect": 0.7069
  },
  {
   "id": "europe-in-review-2014",
   "title": "Europe in Review 2014",
-  "pages": 21,
-  "aspect": 0.7071
- },
- {
-  "id": "europe-in-review-2015",
-  "title": "Europe in Review 2015",
-  "pages": 36,
-  "aspect": 0.7069
- },
- {
-  "id": "europe-in-review-2016",
-  "title": "Europe in Review 2016",
-  "pages": 32,
-  "aspect": 0.7069
- },
- {
-  "id": "europe-in-review-2017",
-  "title": "Europe in Review 2017",
   "pages": 40,
   "aspect": 0.7071
  },
@@ -98,44 +32,14 @@
  {
   "id": "european-parliament-committees",
   "title": "European Parliament Committees",
-  "pages": 32,
+  "pages": 62,
   "aspect": 0.7214
- },
- {
-  "id": "european-parliament-elections-2019",
-  "title": "European Parliament Elections 2019",
-  "pages": 44,
-  "aspect": 0.7071
- },
- {
-  "id": "future-cities-shaping-europe",
-  "title": "Future Cities Shaping Europe",
-  "pages": 40,
-  "aspect": 0.7069
  },
  {
   "id": "health-in-post-pandemic-eu",
   "title": "Health in Post-Pandemic EU",
-  "pages": 23,
+  "pages": 44,
   "aspect": 0.7214
- },
- {
-  "id": "how-europe-manages-sharing-economy",
-  "title": "How Europe Manages Sharing Economy",
-  "pages": 36,
-  "aspect": 0.7069
- },
- {
-  "id": "regions-and-cities-2012-economic-crisis-and-austerity",
-  "title": "Regions and Cities 2012 Economic Crisis and Austerity",
-  "pages": 16,
-  "aspect": 0.7071
- },
- {
-  "id": "regions-and-cities-eu-agencies-race",
-  "title": "Regions and Cities EU Agencies Race",
-  "pages": 36,
-  "aspect": 0.7069
  },
  {
   "id": "separatism-making-europe-stronger",
@@ -146,7 +50,7 @@
  {
   "id": "war-peace-green-economy",
   "title": "War Peace Green Economy",
-  "pages": 25,
+  "pages": 48,
   "aspect": 0.7214
  }
 ]

@@ -120,7 +120,7 @@ function go(n){ page=n; closePanels(); render(); }
 async function load(){
   issues=(await (await fetch("issues.json")).json()).issues;
   $("ag").innerHTML=issues.map(i=>`<figure data-id="${i.id}"><img loading="lazy" src="${src(i.id,1,"t")}" alt=""><figcaption><b>${i.date}</b><br>${i.title||""}</figcaption></figure>`).join("");
-  $("ag").onclick=e=>{const f=e.target.closest("figure"); if(f) location.hash=`#/${f.dataset.id}/1`};
+  $("ag").onclick=e=>{const f=e.target.closest("figure"); if(!f) return; closePanels(); location.hash=`#/${f.dataset.id}/1`; if(issue&&issue.id===f.dataset.id) go(1)};
   route();
 }
 function openIssue(id,n){
@@ -144,7 +144,7 @@ addEventListener("hashchange",route);
 function closePanels(){document.querySelectorAll(".panel").forEach(p=>p.classList.remove("on"))}
 function toggle(id){const p=$(id),on=!p.classList.contains("on");closePanels();p.classList.toggle("on",on);
   if(on&&id==="thumbs"){const c=p.querySelector(".cur");c&&c.scrollIntoView({block:"center"})}}
-$("bLt").onclick=()=>{location.hash=`#/${issues[0].id}/1`;closePanels()};
+$("bLt").onclick=()=>{closePanels();location.hash=`#/${issues[0].id}/1`;if(issue.id===issues[0].id)go(1)};
 $("bTh").onclick=()=>toggle("thumbs"); $("bAr").onclick=()=>toggle("archive");
 $("tg").onclick=e=>{const f=e.target.closest("figure"); if(f) go(+f.dataset.n)};
 
