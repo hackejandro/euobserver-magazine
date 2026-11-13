@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EUobserver Magazine</title>
+<meta name="theme-color" content="#1c1c1c">
+<style>
+:root{--bg:#1c1c1c;--fg:#f2f2f2;--mute:#9a9a9a;--accent:#f05d4a;--bar:56px}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:var(--bg);color:var(--fg);font:15px/1.4 system-ui,-apple-system,Segoe UI,sans-serif;overflow:hidden;overscroll-behavior:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:8px 12px;border-radius:8px}
+button:hover{background:#ffffff14}button:disabled{opacity:.3;cursor:default;background:none}
+a{color:inherit}
+header{position:fixed;inset:0 0 auto;height:var(--bar);display:flex;align-items:center;gap:4px;padding:0 8px;padding-top:env(safe-area-inset-top);z-index:5;background:linear-gradient(#1c1c1c,#1c1c1ce6)}
+header .brand{font:600 20px Georgia,serif;letter-spacing:-.5px;padding:0 8px;text-decoration:none}
+header .sp{flex:1}header .ttl{color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#stage{position:fixed;inset:var(--bar) 0 calc(var(--bar) + env(safe-area-inset-bottom)) 0;touch-action:none;overflow:hidden}
+#book{position:absolute;left:50%;top:50%;display:flex;transform-origin:0 0;will-change:transform}
+#book img{display:block;height:100%;width:auto;background:#2a2a2a;user-select:none;-webkit-user-drag:none}
+#book.spread img:first-child{box-shadow:inset -8px 0 12px -8px #0006}
+.nav{position:absolute;top:0;bottom:0;width:22%;z-index:2;cursor:pointer;display:flex;align-items:center;padding:0 12px;opacity:0;transition:.15s;font-size:36px;color:#fff}
+.nav:hover{opacity:.7}.nav.l{left:0}.nav.r{right:0;justify-content:flex-end}.nav.off{display:none}
+@media(hover:none){.nav{display:none}}
+footer{position:fixed;inset:auto 0 0;height:calc(var(--bar) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);display:flex;align-items:center;gap:10px;padding-inline:12px;background:#1c1c1ce6;z-index:5}
+#bar{flex:1;accent-color:var(--accent);height:24px}
+#pg{min-width:70px;text-align:right;color:var(--mute);font-variant-numeric:tabular-nums}
+.panel{position:fixed;inset:var(--bar) 0 0 0;background:var(--bg);z-index:4;overflow:auto;padding:16px;display:none}
+.panel.on{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px;max-width:1100px;margin:auto;padding-bottom:40px}
+.grid.big{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+.grid figure{cursor:pointer}.grid img{width:100%;display:block;border-radius:3px;background:#2a2a2a;aspect-ratio:361/500;object-fit:cover}
+.grid figcaption{margin-top:6px;font-size:13px;color:var(--mute)}
+.grid figure.cur img{outline:3px solid var(--accent)}
+.grid figure:hover img{filter:brightness(1.15)}
+h2{max-width:1100px;margin:0 auto 14px;font:600 22px Georgia,serif}
+@media(max-width:600px){header .ttl{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="#/" id="home">euobserver</a>
+  <span class="ttl" id="ttl"></span><span class="sp"></span>
+  <button id="bTh" title="Pages">▦ Pages</button>
+  <button id="bAr" title="All issues">Archive</button>
+  <button id="bZ" title="Zoom">⤢</button>
+  <a id="bPdf" hidden><button title="Download PDF">PDF ⬇</button></a>
+</header>
+
+<div id="stage">
+  <div class="nav l" id="nl">‹</div><div class="nav r" id="nr">›</div>
+  <div id="book"></div>
+</div>
+
+<div class="panel" id="thumbs"><div class="grid" id="tg"></div></div>
+<div class="panel" id="archive"><h2>Magazine archive</h2><div class="grid big" id="ag"></div></div>
+
+<footer>
+  <button id="bP" aria-label="Previous">‹</button>
+  <input type="range" id="bar" min="1" max="1" value="1" aria-label="Page">
+  <button id="bN" aria-label="Next">›</button>
+  <span id="pg"></span>
+</footer>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const stage=$("stage"), book=$("book");
+let issues=[], issue=null, page=1, spread=false, z={s:1,x:0,y:0}, fit={w:0,h:0,s:1};
+const pad = n => String(n).padStart(2,"0");
+const src = (k,n,t="p") => `issues/${k}/${t}${pad(n)}.webp`;
+
+/* ---------- layout: which pages are visible ---------- */
+// Desktop/landscape: cover alone, then 2-3, 4-5 … (last page alone if even count). Portrait: single page.
+const useSpread = () => stage.clientWidth > stage.clientHeight * 1.05;
+function visible(){
+  const N=issue.pages;
+  if(!spread) return [page];
+  if(page===1) return [1];
+  const l = page%2===0 ? page : page-1;
+  return l+1<=N ? [l,l+1] : [l];
+}
+function step(dir){
+  const v=visible(), N=issue.pages;
+  const n = dir>0 ? v[v.length-1]+1 : v[0]-1;
+  go(Math.max(1,Math.min(N,n)));
+}
+
+/* ---------- rendering ---------- */
+function render(){
+  if(!issue) return;
+  spread=useSpread();
+  const v=visible(); page=v[0];
+  book.className = v.length>1?"spread":"";
+  book.innerHTML = v.map(n=>`<img src="${src(issue.id,n)}" alt="Page ${n}" draggable="false">`).join("");
+  // preload neighbours
+  [v[v.length-1]+1,v[v.length-1]+2,v[0]-1,v[0]-2].filter(n=>n>=1&&n<=issue.pages).forEach(n=>{new Image().src=src(issue.id,n)});
+  const ratio=361/500*v.length, W=stage.clientWidth, H=stage.clientHeight;
+  const h=Math.min(H, W/ratio); fit={w:h*ratio,h,s:1};
+  book.style.width=fit.w+"px"; book.style.height=fit.h+"px";
+  z={s:1,x:0,y:0}; apply();
+  $("pg").textContent = v.length>1?`${v[0]}–${v[1]} / ${issue.pages}`:`${v[0]} / ${issue.pages}`;
+  $("bar").value=v[0];
+  $("bP").disabled=$("nl").classList.toggle("off",v[0]===1)&&true;
+  const last=v[v.length-1]===issue.pages; $("bN").disabled=last; $("nr").classList.toggle("off",last);
+  $("bP").disabled=v[0]===1;
+  const h2=`#/${issue.id}/${v[0]}`; if(location.hash!==h2) history.replaceState(null,"",h2);
+  document.querySelectorAll("#tg figure").forEach(f=>f.classList.toggle("cur",v.includes(+f.dataset.n)));
+}
+function apply(){
+  const maxX=Math.max(0,(fit.w*z.s-stage.clientWidth)/2+0), maxY=Math.max(0,(fit.h*z.s-stage.clientHeight)/2);
+  z.x=Math.max(-maxX,Math.min(maxX,z.x)); z.y=Math.max(-maxY,Math.min(maxY,z.y));
+  book.style.transform=`translate(${-fit.w/2*z.s+z.x}px,${-fit.h/2*z.s+z.y}px) scale(${z.s})`;
+}
+function go(n){ page=n; closePanels(); render(); }
+
+/* ---------- issues / archive ---------- */
+async function load(){
+  issues=(await (await fetch("issues.json")).json()).issues;
+  $("ag").innerHTML=issues.map(i=>`<figure data-id="${i.id}"><img loading="lazy" src="${src(i.id,1,"t")}" alt=""><figcaption><b>${i.date}</b><br>${i.title||""}</figcaption></figure>`).join("");
+  $("ag").onclick=e=>{const f=e.target.closest("figure"); if(f) location.hash=`#/${f.dataset.id}/1`};
+  route();
+}
+function openIssue(id,n){
+  issue=issues.find(i=>i.id===id)||issues[0];
+  $("ttl").textContent=`${issue.date}${issue.title?" · "+issue.title:""}`;
+  document.title=`${issue.title||"Issue"} · ${issue.date} – EUobserver Magazine`;
+  $("bar").max=issue.pages;
+  $("tg").innerHTML=Array.from({length:issue.pages},(_,i)=>`<figure data-n="${i+1}"><img loading="lazy" src="${src(issue.id,i+1,"t")}" alt=""><figcaption>${i+1}</figcaption></figure>`).join("");
+  const a=$("bPdf"); a.hidden=!issue.pdf; if(issue.pdf){a.href=issue.pdf;a.download=""}
+  page=Math.max(1,Math.min(issue.pages,n||1)); closePanels(); render();
+}
+function route(){
+  const m=location.hash.match(/^#\/([\w-]+)(?:\/(\d+))?/);
+  if(!m){ openIssue(issues[0].id,1); return; }   // default: latest issue
+  if(issue&&issue.id===m[1]){ if(m[2]&&+m[2]!==page){page=+m[2];render();} return; }
+  openIssue(m[1],+m[2]);
+}
+addEventListener("hashchange",route);
+$("home").onclick=e=>{e.preventDefault();location.hash=`#/${issues[0].id}/1`;closePanels()};
+
+/* ---------- panels ---------- */
+function closePanels(){document.querySelectorAll(".panel").forEach(p=>p.classList.remove("on"))}
+function toggle(id){const p=$(id),on=!p.classList.contains("on");closePanels();p.classList.toggle("on",on);
+  if(on&&id==="thumbs"){const c=p.querySelector(".cur");c&&c.scrollIntoView({block:"center"})}}
+$("bTh").onclick=()=>toggle("thumbs"); $("bAr").onclick=()=>toggle("archive");
+$("tg").onclick=e=>{const f=e.target.closest("figure"); if(f) go(+f.dataset.n)};
+
+/* ---------- controls ---------- */
+$("bP").onclick=$("nl").onclick=()=>step(-1);
+$("bN").onclick=$("nr").onclick=()=>step(1);
+$("bar").oninput=e=>{page=+e.target.value;render()};
+$("bZ").onclick=()=>zoomAt(z.s>1?1:2.2,stage.clientWidth/2,stage.clientHeight/2);
+addEventListener("resize",()=>render());
+addEventListener("keydown",e=>{
+  if(e.key==="ArrowRight"||e.key==="PageDown") step(1);
+  else if(e.key==="ArrowLeft"||e.key==="PageUp") step(-1);
+  else if(e.key==="Home") go(1); else if(e.key==="End") go(issue.pages);
+  else if(e.key==="Escape"){closePanels();zoomAt(1,0,0)}
+});
+
+/* ---------- zoom, pan, swipe (pointer events: mouse, touch, pen) ---------- */
+function zoomAt(s,cx,cy){
+  s=Math.max(1,Math.min(5,s));
+  const r=stage.getBoundingClientRect(), ox=cx-(r.width/2), oy=cy-(r.height/2);
+  const k=s/z.s; z.x=ox-(ox-z.x)*k; z.y=oy-(oy-z.y)*k; z.s=s;
+  if(s===1){z.x=0;z.y=0}
+  apply();
+}
+const ptrs=new Map(); let g=null, lastTap=0;
+stage.addEventListener("pointerdown",e=>{
+  if(e.target.closest(".nav")) return;
+  stage.setPointerCapture(e.pointerId); ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  g={x0:e.clientX,y0:e.clientY,t:Date.now(),zx:z.x,zy:z.y,moved:false,d0:null,s0:z.s};
+});
+stage.addEventListener("pointermove",e=>{
+  if(!ptrs.has(e.pointerId)||!g) return;
+  ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(ptrs.size===2){
+    const [a,b]=[...ptrs.values()], d=Math.hypot(a.x-b.x,a.y-b.y);
+    if(!g.d0) g.d0=d; g.moved=true;
+    zoomAt(g.s0*d/g.d0,(a.x+b.x)/2,(a.y+b.y)/2-stage.getBoundingClientRect().top);
+  }else if(z.s>1){
+    z.x=g.zx+e.clientX-g.x0; z.y=g.zy+e.clientY-g.y0; apply();
+    if(Math.hypot(e.clientX-g.x0,e.clientY-g.y0)>5) g.moved=true;
+  }else if(Math.hypot(e.clientX-g.x0,e.clientY-g.y0)>5) g.moved=true;
+});
+function end(e){
+  if(!ptrs.has(e.pointerId)) return; ptrs.delete(e.pointerId);
+  if(ptrs.size||!g) return;
+  const dx=e.clientX-g.x0, dy=e.clientY-g.y0, quick=Date.now()-g.t<500;
+  if(z.s===1&&g.s0===1&&quick&&Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){ step(dx<0?1:-1); }
+  else if(!g.moved){
+    const now=Date.now();
+    if(now-lastTap<300){ const r=stage.getBoundingClientRect(); zoomAt(z.s>1?1:2.5,e.clientX-r.left,e.clientY-r.top); lastTap=0; }
+    else{
+      lastTap=now;
+      const w=stage.clientWidth, x=e.clientX; // tap edges to turn pages
+      setTimeout(()=>{ if(lastTap!==now||z.s>1) return; if(x<w*.25) step(-1); else if(x>w*.75) step(1) },310);
+    }
+  }
+  g=null;
+}
+stage.addEventListener("pointerup",end); stage.addEventListener("pointercancel",end);
+stage.addEventListener("wheel",e=>{
+  e.preventDefault(); const r=stage.getBoundingClientRect();
+  if(e.ctrlKey||e.metaKey) zoomAt(z.s*Math.exp(-e.deltaY*.01),e.clientX-r.left,e.clientY-r.top);
+  else if(z.s>1){z.x-=e.deltaX;z.y-=e.deltaY;apply()}
+  else if(Math.abs(e.deltaX)>30&&!wheelLock){wheelLock=1;step(e.deltaX>0?1:-1);setTimeout(()=>wheelLock=0,400)}
+},{passive:false});
+let wheelLock=0;
+
+load();
+</script>
+</body>
+</html>
