@@ -1,2 +1,3 @@
 .venv/
 .DS_Store
+source-pdfs/*.pdf

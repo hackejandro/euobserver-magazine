@@ -1,11 +1,212 @@
 {
-  "issues": [
-    {
-      "id": "2026-10",
-      "title": "Culture Wars",
-      "date": "November 2026",
-      "pages": 36,
-      "pdf": null
-    }
-  ]
+ "issues": [
+  {
+   "id": "2026-10",
+   "title": "Culture Wars",
+   "date": "November 2026",
+   "pages": 36,
+   "aspect": 0.7214,
+   "pdf": null
+  },
+  {
+   "id": "eu-unsung-heroes",
+   "title": "The EU's Unsung Heroes",
+   "date": "May 2025",
+   "pages": 33,
+   "aspect": 0.7214,
+   "pdf": null
+  },
+  {
+   "id": "european-parliament-committees",
+   "title": "Who's Who in the European Parliament Committees",
+   "date": "February 2024",
+   "pages": 32,
+   "aspect": 0.7214,
+   "pdf": null
+  },
+  {
+   "id": "eu-elections-document",
+   "title": "EU Elections",
+   "date": "January 2024",
+   "pages": 60,
+   "aspect": 0.7214,
+   "pdf": null
+  },
+  {
+   "id": "health-in-post-pandemic-eu",
+   "title": "Health in a Post-Pandemic EU",
+   "date": "February 2023",
+   "pages": 23,
+   "aspect": 0.7214,
+   "pdf": null
+  },
+  {
+   "id": "alt-protein-eating-climate-change",
+   "title": "Alt Protein: Eating Away Climate Change?",
+   "date": "January 2023",
+   "pages": 25,
+   "aspect": 0.7214,
+   "pdf": null
+  },
+  {
+   "id": "digital-eu-good-bad-ugly",
+   "title": "Digital EU: The Good, the Bad and the Ugly",
+   "date": "February 2022",
+   "pages": 27,
+   "aspect": 0.7214,
+   "pdf": null
+  },
+  {
+   "id": "war-peace-green-economy",
+   "title": "War, Peace and the Green Economy",
+   "date": "January 2022",
+   "pages": 25,
+   "aspect": 0.7214,
+   "pdf": null
+  },
+  {
+   "id": "20-years-of-european-journalism",
+   "title": "20 Years of European Journalism",
+   "date": "December 2020",
+   "pages": 44,
+   "aspect": 0.7071,
+   "pdf": null
+  },
+  {
+   "id": "european-parliament-committees-1",
+   "title": "Who Is Who in the New European Parliament Committees",
+   "date": "November 2019",
+   "pages": 32,
+   "aspect": 0.7071,
+   "pdf": null
+  },
+  {
+   "id": "european-parliament-elections-2019",
+   "title": "European Parliament Elections 2019",
+   "date": "March 2019",
+   "pages": 44,
+   "aspect": 0.7071,
+   "pdf": null
+  },
+  {
+   "id": "eu-regional-funds-2018",
+   "title": "A Deep Dive into EU Regional Funds",
+   "date": "October 2018",
+   "pages": 32,
+   "aspect": 0.7071,
+   "pdf": null
+  },
+  {
+   "id": "europe-bioeconomy-business-of-nature",
+   "title": "The Business of Nature: Europe's Bioeconomy",
+   "date": "April 2018",
+   "pages": 32,
+   "aspect": 0.7069,
+   "pdf": null
+  },
+  {
+   "id": "europe-in-review-2017",
+   "title": "Europe in Review 2017",
+   "date": "December 2017",
+   "pages": 40,
+   "aspect": 0.7071,
+   "pdf": null
+  },
+  {
+   "id": "regions-and-cities-eu-agencies-race",
+   "title": "The EU Agencies Race",
+   "date": "October 2017",
+   "pages": 36,
+   "aspect": 0.7069,
+   "pdf": null
+  },
+  {
+   "id": "how-europe-manages-sharing-economy",
+   "title": "How Europe Manages the Sharing Economy",
+   "date": "May 2017",
+   "pages": 36,
+   "aspect": 0.7069,
+   "pdf": null
+  },
+  {
+   "id": "europe-in-review-2016",
+   "title": "Europe in Review 2016",
+   "date": "December 2016",
+   "pages": 32,
+   "aspect": 0.7069,
+   "pdf": null
+  },
+  {
+   "id": "future-cities-shaping-europe",
+   "title": "Future Cities",
+   "date": "October 2016",
+   "pages": 40,
+   "aspect": 0.7069,
+   "pdf": null
+  },
+  {
+   "id": "business-in-europe",
+   "title": "Business in Europe",
+   "date": "June 2016",
+   "pages": 36,
+   "aspect": 0.7069,
+   "pdf": null
+  },
+  {
+   "id": "europe-in-review-2015",
+   "title": "Europe in Review 2015",
+   "date": "December 2015",
+   "pages": 36,
+   "aspect": 0.7069,
+   "pdf": null
+  },
+  {
+   "id": "climate-change-regions",
+   "title": "Climate Change: What Are the Regions Doing?",
+   "date": "October 2015",
+   "pages": 36,
+   "aspect": 0.7071,
+   "pdf": null
+  },
+  {
+   "id": "europe-in-review-2014",
+   "title": "Europe in Review 2014",
+   "date": "December 2014",
+   "pages": 21,
+   "aspect": 0.7071,
+   "pdf": null
+  },
+  {
+   "id": "separatism-making-europe-stronger",
+   "title": "Separatism: Making Europe Stronger?",
+   "date": "October 2014",
+   "pages": 20,
+   "aspect": 0.7065,
+   "pdf": null
+  },
+  {
+   "id": "europe-in-review-2013",
+   "title": "Europe in Review 2013",
+   "date": "December 2013",
+   "pages": 20,
+   "aspect": 0.7069,
+   "pdf": null
+  },
+  {
+   "id": "cohesion-policy-and-regional-aid-2013",
+   "title": "Regions & Cities: Cohesion Policy and Regional Aid",
+   "date": "October 2013",
+   "pages": 20,
+   "aspect": 0.7071,
+   "pdf": null
+  },
+  {
+   "id": "regions-and-cities-2012-economic-crisis-and-austerity",
+   "title": "Regions & Cities: Economic Crisis and Austerity",
+   "date": "October 2012",
+   "pages": 16,
+   "aspect": 0.7071,
+   "pdf": null
+  }
+ ]
 }
